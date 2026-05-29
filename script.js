@@ -37,23 +37,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.setItem('theme', newTheme);
   };
 
-  // --- 匯率功能 ---
+  // --- 匯率功能 (改為按日期更新 + 顯示完整日期) ---
   async function loadRates() {
     try {
       const cachedRates = JSON.parse(localStorage.getItem('rates'));
-      const lastUpdateDate = localStorage.getItem('lastUpdateDate'); // 儲存日期字串 (例如 "2024/2/1")
-      const lastUpdateTime = localStorage.getItem('lastUpdateTime'); // 儲存具體時間
+      const lastUpdateDate = localStorage.getItem('lastUpdateDate');
+      const lastUpdateTime = localStorage.getItem('lastUpdateTime');
       
-      const today = new Date().toLocaleDateString(); // 取得今天的日期字串
+      const today = new Date().toLocaleDateString(); // 取得今天日期字串 (YYYY/M/D)
 
-      // 核心邏輯修改：檢查儲存的日期是否等於今天
       if (cachedRates && lastUpdateDate === today) {
         allRates = cachedRates;
         renderAll();
-        status.innerText = "今日匯率已同步 (更新於 " + lastUpdateTime + ")";
-        console.log("當前日期未變，使用快取數據");
+        status.innerText = "今日匯率已同步 (更新於 " + lastUpdateDate + " " + lastUpdateTime + ")";
       } else {
-        // 如果日期變了（進入新的一天），則抓取新數據
         const response = await fetch(API_URL);
         const data = await response.json();
         allRates = data.rates;
@@ -61,12 +58,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const nowTime = new Date().toLocaleTimeString();
         
         localStorage.setItem('rates', JSON.stringify(allRates));
-        localStorage.setItem('lastUpdateDate', today); // 儲存今天日期
-        localStorage.setItem('lastUpdateTime', nowTime); // 儲存更新時間
+        localStorage.setItem('lastUpdateDate', today);
+        localStorage.setItem('lastUpdateTime', nowTime);
         
         renderAll();
-        status.innerText = "已同步今日最新匯率走勢";
-        console.log("進入新的一天，已從 API 抓取最新匯率");
+        status.innerText = "已同步今日最新匯率 (" + today + " " + nowTime + ")";
       }
     } catch (e) {
       status.innerText = "連線失敗，請檢查網路";
