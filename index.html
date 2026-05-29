@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>全球匯率同步</title>
+  <style>
+    :root {
+      --bg-color: #f0f2f5;
+      --card-bg: #ffffff;
+      --text-color: #1a73e8;
+      --row-bg: #f8f9fa;
+      --input-text: #333333;
+      --border-color: #dddddd;
+      --status-text: #999999;
+    }
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #8ab4f8;
+      --row-bg: #2d2d2d;
+      --input-text: #e0e0e0;
+      --border-color: #444444;
+      --status-text: #777777;
+    }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      background: var(--bg-color); 
+      color: var(--input-text);
+      margin: 0; padding: env(safe-area-inset-top) 15px 20px 15px;
+      transition: background 0.3s;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .header {
+      width: 100%; max-width: 500px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin: 20px 0;
+    }
+    h3 { margin: 0; font-size: 22px; color: var(--text-color); }
+    #themeToggle {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      color: var(--status-text); padding: 8px 15px; border-radius: 20px;
+      cursor: pointer; font-size: 14px;
+    }
+    .card { 
+      width: 100%; max-width: 500px; box-sizing: border-box;
+      background: var(--card-bg); padding: 20px; border-radius: 16px; 
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1); 
+    }
+    .currency-list { display: flex; flex-direction: column; gap: 15px; }
+    .currency-row { 
+      display: flex; align-items: center; gap: 10px; 
+      background: var(--row-bg); padding: 12px; border-radius: 12px; 
+      border: 1px solid var(--border-color);
+    }
+    select { 
+      width: 120px; padding: 10px; border: 1px solid var(--border-color); 
+      border-radius: 8px; font-size: 14px; background: var(--card-bg); color: var(--input-text);
+      -webkit-appearance: none; /* 去除 iOS 預設樣式 */
+    }
+    input { 
+      flex: 1; min-width: 0; padding: 10px; border: 1px solid var(--border-color); 
+      border-radius: 8px; font-size: 18px; background: var(--card-bg); color: var(--input-text);
+    }
+    .remove-btn { color: #ff4d4d; font-size: 24px; padding: 0 10px; border: none; background: none; }
+    .add-btn { 
+      width: 100%; margin-top: 20px; padding: 15px; 
+      background: #1a73e8; color: white; border: none; border-radius: 12px; 
+      font-size: 16px; font-weight: bold; -webkit-tap-highlight-color: transparent;
+    }
+    .status { font-size: 12px; color: var(--status-text); text-align: center; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h3>🌍 匯率轉換器</h3>
+    <button id="themeToggle">🌙 夜間模式</button>
+  </div>
+  <div class="card">
+    <div id="currencyContainer" class="currency-list"></div>
+    <button class="add-btn" id="addCurrency">+ 新增貨幣欄位</button>
+    <div id="status" class="status">載入中...</div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
